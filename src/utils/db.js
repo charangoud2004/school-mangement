@@ -1,11 +1,10 @@
 const mysql = require('mysql2/promise');
-
-require('dotenv').config(); 
+require('dotenv').config();
 
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,  
-  user: process.env.MYSQL_USER, 
-  password: process.env.MYSQL_ROOT_PASSWORD,
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   port: process.env.MYSQL_PORT,
   waitForConnections: true,
@@ -16,7 +15,7 @@ const pool = mysql.createPool({
 pool.getConnection()
   .then(conn => {
     console.log("Connected to Railway MySQL");
-    conn.release(); 
+    conn.release();
   })
   .catch(err => {
     console.error("MySQL Connection Error:", err);
