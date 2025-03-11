@@ -1,30 +1,25 @@
-// import mysql from "mysql2";
-// import dotenv from "dotenv";
+const mysql = require('mysql2/promise');
 
-// dotenv.config(); 
-
-// const pool = mysql
-//   .createPool(process.env.MYSQL_URL) 
-//   .promise();
-
-// pool.query("SELECT 1")
-//   .then(() => console.log("Connected to Railway MySQL"))
-//   .catch((err) => console.error(" MySQL Connection Error:", err));
-
-// export default pool;
-
-const mysql = require("mysql2");
+require('dotenv').config(); 
 
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST,
-  user: "root",
+  host: process.env.MYSQLHOST,  
+  user: process.env.MYSQL_USER, 
   password: process.env.MYSQL_ROOT_PASSWORD,
   database: process.env.MYSQL_DATABASE,
-  port: 3306, // Railway MySQL uses port 3306
+  port: process.env.MYSQL_PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
 
-module.exports = pool.promise();
+pool.getConnection()
+  .then(conn => {
+    console.log("Connected to Railway MySQL");
+    conn.release(); 
+  })
+  .catch(err => {
+    console.error("MySQL Connection Error:", err);
+  });
 
+module.exports = pool;
