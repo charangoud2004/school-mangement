@@ -1,9 +1,15 @@
 const express = require("express");
-const pool = require('./src/utils/db');
+const pool = require("./src/utils/db");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send(
+    "Welcome to the School Management API! Use /addSchool to add a school and /listSchools to retrieve schools."
+  );
+});
 
 app.post("/addSchool", async (req, res) => {
   const { name, address, latitude, longitude } = req.body;
