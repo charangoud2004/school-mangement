@@ -1,23 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-
-const connection = require("./src/utils/db"); 
-const schoolRoutes = require("./src/routes/schoolRoutes");
+const express = require('express');
+const pool = require('./db'); 
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(cors());
 app.use(express.json());
 
-app.use("/", schoolRoutes);
-
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: "Something went wrong!" });
+app.get('/listSchools', async (req, res) => {
+  try {
+    const { latitude, longitude } = req.query;
+    const schools = await pool.query('SELECT * FROM schools');
+    res.json(schools.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });

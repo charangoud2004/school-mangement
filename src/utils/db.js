@@ -1,24 +1,15 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 require('dotenv').config();
 
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  port: process.env.MYSQL_PORT,
-  waitForConnections: true,
-  connectionLimit: 60000,
-  queueLimit: 0
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, 
+  },
 });
 
-pool.getConnection()
-  .then(conn => {
-    console.log("Connected to Railway MySQL");
-    conn.release();
-  })
-  .catch(err => {
-    console.error("MySQL Connection Error:", err);
-  });
-  
+pool.connect()
+  .then(() => console.log('Connected to PostgreSQL successfully!'))
+  .catch(err => console.error('Database connection error:', err));
+
 module.exports = pool;
