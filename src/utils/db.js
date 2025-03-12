@@ -20,15 +20,5 @@ pool.getConnection()
   .catch(err => {
     console.error("MySQL Connection Error:", err);
   });
-
-  pool.query("SHOW DATABASES")
-  .then(([rows]) => {
-    console.log("✅ Available Databases:", rows);
-  })
-  .catch(err => {
-    console.error("❌ Error fetching databases:", err);
-  });
-
-
-
+  
 module.exports = pool;
