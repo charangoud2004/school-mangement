@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   database: process.env.MYSQL_DATABASE,
   port: process.env.MYSQL_PORT,
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 60000,
   queueLimit: 0
 });
 
@@ -20,7 +20,7 @@ pool.getConnection()
   .catch(err => {
     console.error("MySQL Connection Error:", err);
   });
-  
+
   pool.query("SHOW DATABASES")
   .then(([rows]) => {
     console.log("✅ Available Databases:", rows);
