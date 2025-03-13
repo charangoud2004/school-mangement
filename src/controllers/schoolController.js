@@ -41,15 +41,16 @@ exports.listSchools = async (req, res) => {
 
   try {
     const query = `
-            SELECT *, 
-            (6371 * acos(
-                cos(radians($1::float)) * cos(radians(latitude::float)) * 
-                cos(radians(longitude::float) - radians($2::float)) + 
-                sin(radians($1::float)) * sin(radians(latitude::float))
-            ) AS distance 
-            FROM schools 
-            ORDER BY distance;
-        `;
+        SELECT *, 
+        (6371 * acos(
+            cos(radians($1::float)) * cos(radians(latitude::float)) * 
+            cos(radians(longitude::float) - radians($2::float)) + 
+            sin(radians($1::float)) * sin(radians(latitude::float))
+        )) AS distance  
+        FROM schools 
+        ORDER BY distance;
+    `;
+
     const result = await pool.query(query, [latitude, longitude]);
     res.status(200).json(result.rows);
   } catch (error) {
