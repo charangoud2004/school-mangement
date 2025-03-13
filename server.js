@@ -1,9 +1,12 @@
 const express = require("express");
 const pool = require("./src/utils/db");
 require("dotenv").config();
+const schoolRouter = require("./src/router/schoolRouter"); 
 
 const app = express();
 app.use(express.json());
+
+app.use("/", schoolRouter);
 
 app.post("/addSchool", async (req, res) => {
   const { name, address, latitude, longitude } = req.body;
