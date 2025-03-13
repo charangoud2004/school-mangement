@@ -2,6 +2,12 @@
 
 This project provides REST APIs for managing school data, including adding and listing schools with location-based sorting.
 
+## Deployment Notes
+
+### Render Deployment Latency
+- The API is deployed on Render, and due to the free tier limitations, the service may take **15-20 seconds** to wake up from sleep.
+- After the initial request, the API should work normally.
+
 ## Migration to PostgreSQL
 
 Initially, this project was built using MySQL on Railway. However, due to the exhaustion of free credits on Railway, I was forced to migrate to PostgreSQL on Render at the last moment. This unexpected change led to adjustments in database configurations and queries to ensure compatibility with PostgreSQL.
